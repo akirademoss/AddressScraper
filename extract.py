@@ -1,6 +1,8 @@
 import PyPDF2
 import re
+import csv
 
+#gets text from PDF
 def extract_text_from_pdf(pdf_file: str) -> [str]:
     with open(pdf_file, 'rb') as pdf:
         reader = PyPDF2.PdfReader(pdf, strict=False)
@@ -11,18 +13,9 @@ def extract_text_from_pdf(pdf_file: str) -> [str]:
             pdf_text.append(content)
 
         return pdf_text
-    
+
+#Parses line from PDF
 def parse_text(text, keyword):
-    """
-    Parses text based on a keyword and extracts relevant information.
-
-    Args:
-        text (str): The text to parse.
-        keyword (str): The keyword to search for.
-
-    Returns:
-        list: A list of strings containing the extracted information.
-    """
     results = []
     keyword_pattern = re.compile(re.escape(keyword), re.IGNORECASE)
     for line in text.splitlines():
@@ -30,6 +23,7 @@ def parse_text(text, keyword):
         results.append(line.strip())
     return results
 
+#Parses text after specified word in string format
 def parse_after_word(text, word):
     try:
         index = text.index(word)
@@ -38,15 +32,19 @@ def parse_after_word(text, word):
         return ""
     
 if __name__ == '__main__':
+    #extract text from pdf
     extracted_text = extract_text_from_pdf('test.pdf')
+
+    #define strings for parsing
     keyword_email = "email: "
     keyword_street = "street: "
     keyword_city = "city: "
     keyword_zip = "zip: "
     keyword_state = "state: "
-    #output = parse_text(extracted_text, keyword_to_find)
-    #print(extracted_text)
+
     client_address_info = []
+
+    #iterate through extracted text and parse with 2 functions defined previously
     for text in extracted_text:
         email = parse_text(text, keyword_email)
         if email:
@@ -70,7 +68,4 @@ if __name__ == '__main__':
             client_address_info.append(state_parsed)
         
     for word in client_address_info:
-
         print(word)
-        #print(text)
-        #print(text)
