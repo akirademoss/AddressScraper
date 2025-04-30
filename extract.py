@@ -30,6 +30,13 @@ def parse_text(text, keyword):
         results.append(line.strip())
     return results
 
+def parse_after_word(text, word):
+    try:
+        index = text.index(word)
+        return text[index + len(word):]
+    except ValueError:
+        return ""
+    
 if __name__ == '__main__':
     extracted_text = extract_text_from_pdf('test.pdf')
     keyword_email = "email: "
@@ -43,19 +50,27 @@ if __name__ == '__main__':
     for text in extracted_text:
         email = parse_text(text, keyword_email)
         if email:
-            client_address_info.append(email)
+            email_parsed = parse_after_word("".join(email), keyword_email)
+            client_address_info.append(email_parsed)
         street = parse_text(text, keyword_street)
         if street:
-            client_address_info.append(street)
+            street_parsed = parse_after_word("".join(street), keyword_street)
+            client_address_info.append(street_parsed)
         city = parse_text(text, keyword_city)
         if city:
-            client_address_info.append(city)
+            city_parsed = parse_after_word("".join(city), keyword_city)
+            client_address_info.append(city_parsed)
         zip = parse_text(text, keyword_zip)
         if zip:
-            client_address_info.append(zip)
+            zip_parsed = parse_after_word("".join(zip), keyword_zip)
+            client_address_info.append(zip_parsed)
         state = parse_text(text, keyword_state)
         if state:
-            client_address_info.append(state)
+            state_parsed = parse_after_word("".join(state), keyword_state)
+            client_address_info.append(state_parsed)
+        
+    for word in client_address_info:
 
-        print(client_address_info)
+        print(word)
+        #print(text)
         #print(text)
