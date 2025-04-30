@@ -66,13 +66,15 @@ if __name__ == '__main__':
         if state:
             state_parsed = parse_after_word("".join(state), keyword_state)
             client_address_info.append(state_parsed)
-        
+    
+    #test the output
     for word in client_address_info:
         print(word)
 
+    #write to a .csv file
     with open("addresses.csv", mode='w') as csvfile:
-        fieldnames = ['clients']
+        fieldnames = ['']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         for word in client_address_info:
-            writer.writerow({"clients": word})
+            writer.writerow({"": word})
