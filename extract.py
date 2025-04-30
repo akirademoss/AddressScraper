@@ -69,3 +69,10 @@ if __name__ == '__main__':
         
     for word in client_address_info:
         print(word)
+
+    with open("addresses.csv", mode='w') as csvfile:
+        fieldnames = ['clients']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for word in client_address_info:
+            writer.writerow({"clients": word})
